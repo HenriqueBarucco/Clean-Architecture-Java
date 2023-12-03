@@ -1,5 +1,6 @@
 package com.henriquebarucco.cleanarch.entrypoint.controller;
 
+import com.henriquebarucco.cleanarch.core.usecase.DeleteCustomerByIdUseCase;
 import com.henriquebarucco.cleanarch.core.usecase.FindCustomerByIdUseCase;
 import com.henriquebarucco.cleanarch.core.usecase.InsertCustomerUseCase;
 import com.henriquebarucco.cleanarch.core.usecase.UpdateCustomerUseCase;
@@ -23,6 +24,9 @@ public class CustomerController {
 
     @Autowired
     private UpdateCustomerUseCase updateCustomerUseCase;
+
+    @Autowired
+    private DeleteCustomerByIdUseCase deleteCustomerByIdUseCase;
 
     @Autowired
     private CustomerMapper customerMapper;
@@ -50,5 +54,12 @@ public class CustomerController {
         updateCustomerUseCase.update(customer, customerRequest.getZipCode());
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        deleteCustomerByIdUseCase.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
